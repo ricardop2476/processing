@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>Pong</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.13/p5.js"></script>
+    <script>
+        var ballX; 
+        var ballY; 
+        var ballSpeedX = 0;  
+        var ballSpeedY = 0;  
+        var paddleHeight = 30;
+        var ballSize = 50;
+
+        function setup() {
+            createCanvas(800, 600);
+            ballX = width / 2; 
+            ballY = height / 2;
+            
+        }
+
+        function draw() {
+            background(57,230,150);
+            moveBall();
+            checkCollide();
+            drawPaddle();
+            drawBall();
+            ballSizeC();
+        }
+
+        function moveBall() {
+            ballX = ballX + ballSpeedX;
+            ballY = ballY + ballSpeedY;
+
+            console.log("ballSpeedX: " + ballSpeedX + 
+                               ", ballSpeedY: " + ballSpeedY);
+        }
+
+        function checkCollide() {
+            if (ballX < 0 || ballX > width) {
+                ballSpeedX = ballSpeedX * -1;
+            }
+            if (ballY < 0) {
+                ballSpeedY = ballSpeedY * -1;
+            }
+            if (ballY > height - paddleHeight) {
+                if (ballX > mouseX && ballX < mouseX + 200) {
+                    ballSpeedY = ballSpeedY * -1;
+                    ballSize =  ballSize -3; // everytime that the ball colides w/ the paddle, it's diameter (size) decreaces by 3.
+                }
+                else {
+                    text("GAME OVER!", width / 2, height / 2);
+                    noLoop();
+                }
+            }
+            
+            
+        }
+
+        function drawBall() {
+            noStroke();
+            ellipse(ballX, ballY, ballSize, ballSize);
+        }
+
+        function drawPaddle() {
+            strokeWeight(4);
+            rect(mouseX, height - paddleHeight - 4, 200, paddleHeight);
+        }
+        
+        function mousePressed() {
+            ballSpeedX = 5;
+            ballSpeedY = 5;
+        }
+        
+        // if the p key is pressed, then everything in function draw will stop b/c of 'noLoop'
+        function keyTyped() { 
+            if (key == 'p') {
+            noLoop();
+        }else if (key == 'u') { // if key u (Unpause) is pressed then everything in function draw will resume b/c of loop
+             loop();
+             }
+        }
+        
+        function ballSizeC() { // this checks to reset the ball to the original size if it has gotten to small
+            if (ballSize < 5) { // if the diameter (size) is less than 5 then set it back to 50.
+                ballSize = 50;
+            }
+        }
+        
+        
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
