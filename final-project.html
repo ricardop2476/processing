@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>Final Project</title>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.13/addons/p5.dom.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.13/p5.js"></script>
+    <script>
+        // sets player score equal to 0
+        var score = 0;
+        var objects = [];
+        spriteX;
+        
+
+        function setup() {
+            createCanvas(700, 500);
+
+            spriteY = height;
+            spriteX = width;
+
+        }
+
+        function draw() {
+            noCursor();
+            // sky
+            background(5, 125, 200);
+
+            // clouds
+            cloud(75, 175);
+            cloud(500, 250);
+            cloud(300, 50);
+
+            // objects
+            for (var i = 0; i < objects.length; i++) {
+                objects[i].move();
+                objects[i].display();
+
+            // sprite
+            fill(0);
+            ellipse(mouseX,spriteY-85,40,40)
+            //ellipse(spriteX / 8, spriteY - 85, 40, 40);
+            spriteX = constrain(spriteX, 0, 5555);
+            
+            if (keyIsDown(LEFT_ARROW))
+                spriteX-=10;
+
+            if (keyIsDown(RIGHT_ARROW))
+                spriteX+=10;
+            }
+
+            // time for objects to spawn
+            if (frameCount % 25 == 0) {
+                objects.push(new Object());
+            }
+            // ground
+            noStroke();
+            fill(50, 200, 50)
+            rect(0, 470, 1400, 70);
+            
+            fill(0);
+            textAlign(CENTER);
+            textSize(30);
+            text("Score: " + score,75,35);
+            
+            //score function  (DOESN'T WORK)
+            if (frameCount > 1){
+                score ++;
+                
+                
+            }
+            score = constrain(score,0,500);
+            //score is lees than 0 the game ends
+            if (score < 0){
+                noLoop();
+                textAlign(CENTER);
+                textSize(30);
+                text("GAME OVER",width/2,height/2);
+            }
+        }
+       
+        // defines cloud
+        function cloud(x, y) {
+            noStroke();
+            fill(255);
+            rect(x, y, 100, 50, 100)
+            ellipse(x + 30, y + 10, 40, 40);
+            ellipse(x + 50, y + 5, 45, 45);
+            ellipse(x + 70, y + 15, 45, 45);
+        }
+
+        // defines object
+        function Object() {
+            this.x = random(0, 650);
+            this.y = 0;
+            this.move = function() {
+                this.x += 0;
+                this.y += 5;
+            }
+            this.display = function() {
+                noStroke();
+                fill(255, 0, 0);
+                rectMode(CENTER);
+                rect(this.x, this.y, 100, 100);
+            }
+        }
+        
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
